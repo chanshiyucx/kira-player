@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef, MouseEvent } from 'react'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import './App.css'
 import './main.css'
 import { Music } from './types'
@@ -24,7 +25,6 @@ const tracks: Array<Music> = [
 ]
 
 function App() {
-  // 当前播放的音乐
   const [audio, setAudio] = useState(new Audio())
   const [currentTrack, setCurrentTrack] = useState(tracks[0])
   const [favorited, setFavorited] = useState(currentTrack.favorited)
@@ -32,6 +32,7 @@ function App() {
   const [barWidth, setBarWidth] = useState(0)
   const [duration, setDuration] = useState('')
   const [currentTime, setCurrentTime] = useState('')
+  const [transitionName, setTransitionName] = useState('')
   const progressEl = useRef<HTMLDivElement>(null)
 
   // 播放进度
@@ -97,8 +98,10 @@ function App() {
     const currentTrackIndex = tracks.findIndex((track) => track.name === currentTrack.name)
     let newTrackIndex
     if (option === 'prev') {
+      setTransitionName('scale-in')
       newTrackIndex = currentTrackIndex > 0 ? currentTrackIndex - 1 : tracks.length - 1
     } else {
+      setTransitionName('scale-out')
       newTrackIndex = currentTrackIndex < tracks.length - 1 ? currentTrackIndex + 1 : 0
     }
     const track = tracks[newTrackIndex]
@@ -135,7 +138,11 @@ function App() {
         <div className="player">
           <div className="player__top">
             <div className="player-cover">
-              <div className="player-cover__item" style={{ backgroundImage: `url(${currentTrack.cover})` }}></div>
+              <TransitionGroup childFactory={(child) => React.cloneElement(child, { classNames: transitionName })}>
+                <CSSTransition key={currentTrack.name} timeout={500}>
+                  <div className="player-cover__item" style={{ backgroundImage: `url(${currentTrack.cover})` }}></div>
+                </CSSTransition>
+              </TransitionGroup>
             </div>
             <div className="player-controls">
               <div className={`player-controls__item -favorite ${favorited ? 'active' : ''}`} onClick={favorite}>

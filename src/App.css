@@ -1,0 +1,41 @@
+.scale-in-enter {
+  opacity: 0;
+  transform: scale(1.2);
+  pointer-events: none;
+}
+.scale-in-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: all 0.35s ease-in-out;
+}
+.scale-in-exit {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: none;
+}
+.scale-in-exit-active {
+  opacity: 0;
+  transform: scale(0.55);
+  transition: all 0.35s ease-in-out;
+}
+
+.scale-out-enter {
+  opacity: 0;
+  transform: scale(0.55);
+  pointer-events: none;
+}
+.scale-out-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: all 0.35s ease-in-out;
+}
+.scale-out-exit {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: none;
+}
+.scale-out-exit-active {
+  opacity: 0;
+  transform: scale(1.2);
+  transition: all 0.35s ease-in-out;
+}
